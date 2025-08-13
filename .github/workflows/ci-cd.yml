@@ -153,12 +153,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.TOKEN }}
-      
+          fetch-depth: 0  # Ensure full history for rebase
+
       - name: Setup Git config
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-      
+
+      - name: Fetch latest main
+        run: git fetch origin main
+
+      - name: Rebase with latest main
+        run: git pull --rebase origin main
+
       - name: Update Kubernetes deployment file
         env:
           IMAGE_TAG: sha-${{ github.sha }}
@@ -174,9 +181,9 @@ jobs:
           # Verify the change
           echo "Updated deployment to use image: ${NEW_IMAGE}"
           grep -A 1 "image:" kubernetes/deployment.yaml
-      
+
       - name: Commit and push changes
         run: |
           git add kubernetes/deployment.yaml
           git commit -m "Update Kubernetes deployment with new image tag: ${{ needs.docker.outputs.image_tag }} [skip ci]" || echo "No changes to commit"
-          git push
+          git push origin main
