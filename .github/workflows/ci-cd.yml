@@ -148,12 +148,6 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-      - name: Fetch latest main
-        run: git fetch origin main
-
-      - name: Rebase with latest main
-        run: git pull --rebase origin main
-
       - name: Update Kubernetes deployment file
         env:
           IMAGE_TAG: sha-${{ github.sha }}
