@@ -201,3 +201,17 @@ jobs:
           git add kubernetes/deployment.yaml
           git commit -m "Update Kubernetes deployment with new image tag: ${{ needs.docker.outputs.image_tag }} [skip ci]" || echo "No changes to commit"
           git push
+  dast:
+    name: Dynamic Application Security Testing (DAST)
+    runs-on: ubuntu-latest
+    needs: [update-k8s]
+
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run OWASP ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.12.0
+        with:
+          target: ${{ secrets.ZAP_TARGET_URL }}
+          fail_action: true
