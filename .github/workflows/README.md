@@ -37,12 +37,3 @@ For full continuous deployment, you would need to:
 2. Configure it to automatically apply changes to the Kubernetes manifests
 3. This would complete the CI/CD pipeline by automatically deploying the new image to your Kubernetes cluster
 
-## Manual Deployment
-
-If you're not using a GitOps approach with an operator, you can manually apply the updated deployment:
-
-```bash
-kubectl apply -f kubernetes/deployment.yaml
-```
-
-Or set up a webhook to trigger the deployment when the manifest is updated.
