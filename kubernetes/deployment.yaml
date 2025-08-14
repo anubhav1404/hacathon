@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: tic-tac-toe
-        image: ghcr.io/anubhav1404/hacathon:sha-d3219f71c2513626fb2727d407adddcaff765649
+        image: ghcr.io/anubhav1404/hacathon:sha-ef77e558ed12b7e534c6f08e55f4e4d113e461fb
         # Image will be automatically updated by CI/CD pipeline
         imagePullPolicy: Always
         ports:
